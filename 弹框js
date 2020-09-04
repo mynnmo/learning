@@ -1,0 +1,76 @@
+/*args:
+ title:"温馨提示"
+ content:"是否在页面添加1个蓝色的div？"
+ confirmFn:function(){
+	 var blueDiv = document.createElement("div")
+	  blueDiv.style.backgroundColor = "blue"
+	  blueDiv.style.width = "300px"
+	  blueDiv.style.height = "300px"
+	  body.appendChild(blueDiv)
+	  
+ }
+ cancelFn:function(){
+	 
+ }
+ */
+
+//注意，特殊，反引号里面可以写变量
+// 把要传入的数据放入对象里再封装到函数上,创建变量来代替要变换的内容
+function LcAlert(args){
+	var zhezhao=document.createElement("div")
+		zhezhao.className = "zhezhao"
+		zhezhao.innerHTML = `<div class="alert">
+		<div class="header">
+			<span class="title">`+args.title+`</span>
+			<span class="close">X</span></div>
+		<div class="main">`
+		+args.content+
+		`</div>
+		<div class="btnList">
+			<div class="btn confirm">确定</div>
+			<div class="btn cancle">取消</div>
+		</div>
+	</div>
+		`
+		var body = document.querySelector("body")
+		body.appendChild(zhezhao)
+		
+		//获取关闭close元素
+		var closeDiv = document.querySelector(".close")
+		closeDiv.onclick = function(){
+			body.removeChild(zhezhao)
+		}
+		
+		var confirmDiv = document.querySelector(".btn.confirm")//注意，里面是没有空格的，有空格的话，就是btn里面的comfirm了
+		//绑定事件
+		confirmDiv.onclick = function(){
+			args.confirmFn()
+			if(typeof args.confirmFn==`function`){
+				args.confirmFn()
+			}else{
+				console.error("传入的参数，没有设置确认函数！")
+			}
+			 body.removeChild(zhezhao)
+		}
+		var cancleDiv = document.querySelector(".btn.cancle")
+		cancleDiv.onclick = function(){
+			if(typeof args.cancelFn==`function`){
+				args.cancelFn()
+			}else{
+				console.error("传入的参数，没有设置取消函数")
+			}
+			body.removeChild(zhezhao)
+		}
+		
+	}
+
+
+
+
+
+
+
+
+
+
+
